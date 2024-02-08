@@ -14,6 +14,7 @@ import Random from './Random';
 import Selector from './Selector';
 import Sequence from './Sequence';
 import Task from './Task';
+import Abort from './Abort';
 
 import { SUCCESS, FAILURE, RUNNING } from './constants';
 
@@ -38,6 +39,7 @@ export {
   Decorator,
   Task,
   Introspector,
+  Abort,
   decorators
 };
 export * from './types';

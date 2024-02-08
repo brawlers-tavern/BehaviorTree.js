@@ -34,7 +34,12 @@ export interface MinimalBlueprint {
   start?: StartCallback;
   nodes?: NodeOrRegistration[];
   node?: NodeOrRegistration;
+  abortCondition?: AbortCondition;
+  abortId?: string;
 }
+
+export type AbortCondition = (blackboard: Blackboard) => boolean;
+
 export interface Blueprint {
   name?: string;
   end: EndCallback;
@@ -43,6 +48,8 @@ export interface Blueprint {
   start: StartCallback;
   nodes?: NodeOrRegistration[];
   node?: NodeOrRegistration;
+  abortCondition?: AbortCondition;
+  abortId?: string;
 }
 export interface DecoratorBlueprint extends MinimalBlueprint {
   config?: DecoratorConfig;

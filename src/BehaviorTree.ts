@@ -27,15 +27,41 @@ export default class BehaviorTree {
   blackboard: Blackboard;
   lastResult?: Status | StatusWithState;
 
+  // Create a map of conditions to check for aborting the tree
+  private _abortConditions: Map<string, (blackboard: Blackboard) => boolean>;
+
+  public registerAbortCondition(id: string, condition: (blackboard: Blackboard) => boolean) {
+    if (this._abortConditions.has(id)) {
+      console.info(`Abort condition with id ${id} already exists.`);
+      return
+    }
+    this._abortConditions.set(id, condition);
+  }
+
+  private _checkAndHandleAbort(blackboard: Blackboard): boolean {
+    for (const [key,condition] of this._abortConditions) {
+      if (condition(blackboard)) {
+        this._abortConditions.clear(); // Clear conditions
+        return true; // Abort was triggered
+      }
+    }
+    return false; // No abort condition met
+  }
+
   constructor({ tree, blackboard }: { tree: NodeOrRegistration; blackboard: Blackboard }) {
     this.tree = tree;
     this.blackboard = blackboard;
     this.lastResult = undefined;
+    this._abortConditions = new Map<string, (blackboard: Blackboard) => boolean>();
   }
 
   step({ introspector }: StepParameter = {}) {
-    const lastRun = this.lastResult && typeof this.lastResult === 'object' ? this.lastResult : undefined;
-    const rerun = isRunning(this.lastResult);
+    let lastRun = this.lastResult && typeof this.lastResult === 'object' ? this.lastResult : undefined;
+    let rerun = isRunning(this.lastResult);
+    if (this._checkAndHandleAbort(this.blackboard)) {
+      lastRun = undefined;
+      rerun = false;
+    }
     if (introspector) {
       introspector.start(this);
     }
