@@ -33,7 +33,7 @@
     "lint": "eslint src --ext .ts",
     "prepublish": "npm run build",
     "test": "jest --config jest.config.json",
-    "ts-types": "tsc --emitDeclarationOnly --outDir lib"
+    "ts-types": "tsc --outDir lib"
   },
   "repository": {
     "type": "git",

@@ -38,6 +38,10 @@ export default class BehaviorTree {
     this._abortConditions.set(id, condition);
   }
 
+  public unregisterAbortCondition(id: string): void {
+    this._abortConditions.delete(id);
+  }
+
   private _checkAndHandleAbort(blackboard: Blackboard): boolean {
     for (const [key,condition] of this._abortConditions) {
       if (condition(blackboard)) {
@@ -61,6 +65,8 @@ export default class BehaviorTree {
     if (this._checkAndHandleAbort(this.blackboard)) {
       lastRun = undefined;
       rerun = false;
+      this.lastResult = undefined;
+      return
     }
     if (introspector) {
       introspector.start(this);
