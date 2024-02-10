@@ -26,19 +26,24 @@ export default class BehaviorTree {
   tree: NodeOrRegistration;
   blackboard: Blackboard;
   lastResult?: Status | StatusWithState;
+  abortId = 0;
 
   // Create a map of conditions to check for aborting the tree
-  private _abortConditions: Map<string, (blackboard: Blackboard) => boolean>;
+  private _abortConditions: Map<number, (blackboard: Blackboard) => boolean>;
 
-  public registerAbortCondition(id: string, condition: (blackboard: Blackboard) => boolean) {
-    if (this._abortConditions.has(id)) {
-      console.info(`Abort condition with id ${id} already exists.`);
-      return
+  public registerAbortCondition(id: number | null, condition: (blackboard: Blackboard) => boolean) {
+    if (id && this._abortConditions.has(id)) {
+      // console.info(`Abort condition with id ${id} already exists.`);
+      return null
     }
-    this._abortConditions.set(id, condition);
+    // Assign new id if none is provided
+    const abortId = id ? id : this.abortId++;
+    this._abortConditions.set(abortId, condition);
+    return abortId;
   }
 
-  public unregisterAbortCondition(id: string): void {
+  public unregisterAbortCondition(id: number | null): void {
+    if (id === null) return
     this._abortConditions.delete(id);
   }
 
@@ -56,13 +61,13 @@ export default class BehaviorTree {
     this.tree = tree;
     this.blackboard = blackboard;
     this.lastResult = undefined;
-    this._abortConditions = new Map<string, (blackboard: Blackboard) => boolean>();
+    this._abortConditions = new Map<number, (blackboard: Blackboard) => boolean>();
   }
 
   step({ introspector }: StepParameter = {}) {
     let lastRun = this.lastResult && typeof this.lastResult === 'object' ? this.lastResult : undefined;
     let rerun = isRunning(this.lastResult);
-    if (this._checkAndHandleAbort(this.blackboard)) {
+    if (rerun && this._checkAndHandleAbort(this.blackboard)) {
       lastRun = undefined;
       rerun = false;
       this.lastResult = undefined;
