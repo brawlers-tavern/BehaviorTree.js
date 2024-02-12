@@ -1,5 +1,5 @@
 {
-  "name": "behaviortree",
+  "name": "@brawlers-tavern/behaviortree",
   "version": "2.1.0",
   "description": "A JavaScript implementation of Behavior Trees. They are useful for implementing AIs. For Browsers and NodeJS.",
   "module": "dist/index.js",
@@ -9,6 +9,10 @@
     "dist/index.node.js",
     "dist/index.umd.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brawlers-tavern/BehaviorTree.js.git"
+  },
   "dependencies": {
     "core-js": "^3.11.1"
   },
@@ -38,10 +42,6 @@
     "lint": "eslint src",
     "test": "jest",
     "prepublish": "npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Calamari/BehaviorTree.js.git"
   },
   "keywords": [
     "Behaviors",
