@@ -33,7 +33,6 @@ export default class BehaviorTree {
 
   public registerAbortCondition(id: number | null, condition: (blackboard: Blackboard) => boolean) {
     if (id && this._abortConditions.has(id)) {
-      // console.info(`Abort condition with id ${id} already exists.`);
       return null
     }
     // Assign new id if none is provided
