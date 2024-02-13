@@ -5,14 +5,15 @@
   "module": "lib/index.js",
   "main": "lib/index.js",
   "files": [
-    "lib/index.js",
-    "lib/index.node.js",
-    "lib/index.umd.js"
+    "lib/*"
   ],
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brawlers-tavern/BehaviorTree.js.git"
+  },
+  "publishConfig": {
+      "@brawlers-tavern:registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
     "core-js": "^3.20.2"
