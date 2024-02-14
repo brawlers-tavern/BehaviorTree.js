@@ -3,5 +3,6 @@ import AlwaysSucceedDecorator from './AlwaysSucceedDecorator';
 import CooldownDecorator from './CooldownDecorator';
 import InvertDecorator from './InvertDecorator';
 import LoopDecorator from './LoopDecorator';
+import AbortDecorator from './AbortDecorator';
 
-export { AlwaysFailDecorator, AlwaysSucceedDecorator, CooldownDecorator, InvertDecorator, LoopDecorator };
+export { AlwaysFailDecorator, AlwaysSucceedDecorator, CooldownDecorator, InvertDecorator, LoopDecorator, AbortDecorator };
