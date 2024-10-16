@@ -4,5 +4,6 @@ import CooldownDecorator from './CooldownDecorator';
 import InvertDecorator from './InvertDecorator';
 import LoopDecorator from './LoopDecorator';
 import AbortDecorator from './AbortDecorator';
+import ConditionalDecorator from './ConditionalDecorator';
 
-export { AlwaysFailDecorator, AlwaysSucceedDecorator, CooldownDecorator, InvertDecorator, LoopDecorator, AbortDecorator };
+export { AlwaysFailDecorator, AlwaysSucceedDecorator, CooldownDecorator, InvertDecorator, LoopDecorator, AbortDecorator, ConditionalDecorator };

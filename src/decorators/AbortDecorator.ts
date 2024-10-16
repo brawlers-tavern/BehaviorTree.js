@@ -43,11 +43,9 @@ export default class AbortDecorator extends Decorator {
     // if fail register abort condition and return FAILURE
     if (result === FAILURE) {
       this.abortRegister(blackboard);
-      console.log('AbortDecorator: abortCondition failure, registering abort condition');
       return FAILURE;
     }
     // if not fail unregister abort condition
-    console.log('AbortDecorator: success, unregistering abort condition');
     this.abortUnregister(blackboard);
 
     // if not fail run the node and return result

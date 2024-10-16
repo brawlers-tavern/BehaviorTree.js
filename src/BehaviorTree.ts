@@ -29,15 +29,15 @@ export default class BehaviorTree {
   abortId = 0;
 
   // Create a map of conditions to check for aborting the tree
-  private _abortConditions: Map<number, (blackboard: Blackboard) => boolean>;
+  private _abortConditions: Map<number, { condition: (blackboard: Blackboard) => boolean, invert: boolean }>;
 
-  public registerAbortCondition(id: number | null, condition: (blackboard: Blackboard) => boolean) {
+  public registerAbortCondition(id: number | null, condition: (blackboard: Blackboard) => boolean, invert = false) {
     if (id && this._abortConditions.has(id)) {
       return null
     }
     // Assign new id if none is provided
     const abortId = id ? id : this.abortId++;
-    this._abortConditions.set(abortId, condition);
+    this._abortConditions.set(abortId, { condition, invert });
     return abortId;
   }
 
@@ -47,9 +47,9 @@ export default class BehaviorTree {
   }
 
   private _checkAndHandleAbort(blackboard: Blackboard): boolean {
-    for (const [key,condition] of this._abortConditions) {
-      if (condition(blackboard)) {
-        this._abortConditions.clear(); // Clear conditions
+    for (const [_, entry] of this._abortConditions) {
+      if (entry.condition(blackboard) !== entry.invert) {
+        this._abortConditions.clear(); // Clear all conditions
         return true; // Abort was triggered
       }
     }
@@ -60,7 +60,7 @@ export default class BehaviorTree {
     this.tree = tree;
     this.blackboard = blackboard;
     this.lastResult = undefined;
-    this._abortConditions = new Map<number, (blackboard: Blackboard) => boolean>();
+    this._abortConditions = new Map<number, { condition: (blackboard: Blackboard) => boolean, invert: boolean }>();
   }
 
   step({ introspector }: StepParameter = {}) {

@@ -36,6 +36,8 @@ export interface MinimalBlueprint {
   node?: NodeOrRegistration;
   abortCondition?: AbortCondition;
   abortId?: string;
+  abortLower?: boolean;
+  abortSelf?: boolean;
 }
 
 export type AbortCondition = (blackboard: Blackboard) => boolean;
@@ -50,6 +52,8 @@ export interface Blueprint {
   node?: NodeOrRegistration;
   abortCondition?: AbortCondition;
   abortId?: string;
+  abortLower?: boolean;
+  abortSelf?: boolean;
 }
 export interface DecoratorBlueprint extends MinimalBlueprint {
   config?: DecoratorConfig;
